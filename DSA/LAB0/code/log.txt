@@ -1,0 +1,100 @@
+solution1: O(q*n*m) # n*m + q*a*b
+solution2: O() # n*m + n*m + q*a
+solution3: O() # n*m + n*m + q
+
+
+# 2000 2000 100000
+./solution_1 < test.in > test.out  40.42s user 0.02s system 99% cpu 40.441 total
+./solution_2 < test.in > test.out  0.73s user 0.03s system 99% cpu 0.760 total
+./solution_3 < test.in > test.out  0.28s user 0.02s system 99% cpu 0.297 total
+
+
+# 1500 1500 100000
+./solution_1 < test.in > test.out  24.88s user 0.01s system 99% cpu 24.893 total
+./solution_2 < test.in > test.out  0.36s user 0.03s system 99% cpu 0.395 total
+./solution_3 < test.in > test.out  0.17s user 0.02s system 99% cpu 0.193 total
+
+# 1000 1000 100000
+./solution_1 < test.in > test.out  9.57s user 0.00s system 99% cpu 9.568 total
+./solution_2 < test.in > test.out  0.17s user 0.02s system 99% cpu 0.185 total
+./solution_3 < test.in > test.out  0.10s user 0.01s system 99% cpu 0.110 total
+
+# 500 500 100000
+./solution_1 < test.in > test.out  2.25s user 0.00s system 99% cpu 2.247 total
+./solution_2 < test.in > test.out  0.05s user 0.02s system 99% cpu 0.077 total
+./solution_3 < test.in > test.out  0.06s user 0.00s system 99% cpu 0.056 total
+
+# 100 100 100000
+./solution_1 < test.in > test.out  0.11s user 0.01s system 99% cpu 0.121 total
+./solution_2 < test.in > test.out  0.03s user 0.00s system 99% cpu 0.033 total
+./solution_3 < test.in > test.out  0.02s user 0.01s system 99% cpu 0.026 total
+
+# 1000 1000 10000
+./solution_1 < test.in > test.out  1.03s user 0.01s system 99% cpu 1.039 total
+./solution_2 < test.in > test.out  0.08s user 0.00s system 98% cpu 0.078 total
+./solution_3 < test.in > test.out  0.07s user 0.00s system 97% cpu 0.075 total
+
+# 100 100 10000
+./solution_1 < test.in > test.out  0.01s user 0.00s system 98% cpu 0.014 total
+./solution_2 < test.in > test.out  0.01s user 0.00s system 95% cpu 0.005 total
+./solution_3 < test.in > test.out  0.00s user 0.00s system 97% cpu 0.005 total
+
+# 2000 2000 10000
+./solution_1 < test.in > test.out  4.20s user 0.01s system 99% cpu 4.211 total
+./solution_2 < test.in > test.out  0.26s user 0.04s system 99% cpu 0.302 total
+./solution_3 < test.in > test.out  0.26s user 0.01s system 99% cpu 0.266 total
+
+# 2000 2000 1000
+./solution_1 < test.in > test.out  0.62s user 0.02s system 99% cpu 0.641 total
+./solution_2 < test.in > test.out  0.25s user 0.01s system 99% cpu 0.258 total
+./solution_3 < test.in > test.out  0.22s user 0.03s system 99% cpu 0.254 total
+
+# 2000 2000 100
+./solution_1 < test.in > test.out  0.29s user 0.02s system 99% cpu 0.311 total
+./solution_2 < test.in > test.out  0.25s user 0.00s system 99% cpu 0.251 total
+./solution_3 < test.in > test.out  0.24s user 0.02s system 99% cpu 0.258 total
+
+# 500 500 50000
+./solution_1 < test.in > test.out  1.09s user 0.01s system 99% cpu 1.099 total
+./solution_2 < test.in > test.out  0.02s user 0.03s system 99% cpu 0.048 total
+./solution_3 < test.in > test.out  0.04s user 0.00s system 99% cpu 0.038 total
+
+# 1000 1000 50000
+./solution_1 < test.in > test.out  4.84s user 0.00s system 99% cpu 4.835 total
+./solution_2 < test.in > test.out  0.11s user 0.02s system 99% cpu 0.130 total
+./solution_3 < test.in > test.out  0.07s user 0.02s system 99% cpu 0.093 total
+
+# 2000 2000 50000
+./solution_1 < test.in > test.out  20.23s user 0.00s system 99% cpu 20.228 total
+./solution_2 < test.in > test.out  0.49s user 0.01s system 99% cpu 0.501 total
+./solution_3 < test.in > test.out  0.26s user 0.02s system 99% cpu 0.283 total
+
+# 1500 1500 10000
+./solution_1 < test.in > test.out  2.38s user 0.01s system 99% cpu 2.386 total
+./solution_2 < test.in > test.out  0.15s user 0.02s system 99% cpu 0.172 total
+./solution_3 < test.in > test.out  0.14s user 0.01s system 99% cpu 0.153 total
+
+# 1500 1500 20000
+./solution_1 < test.in > test.out  4.56s user 0.01s system 99% cpu 4.575 total
+./solution_2 < test.in > test.out  0.20s user 0.01s system 99% cpu 0.207 total
+./solution_3 < test.in > test.out  0.14s user 0.02s system 99% cpu 0.159 total
+
+# 2000 100 100000
+./solution_1 < test.in > test.out  2.01s user 0.01s system 99% cpu 2.017 total
+./solution_2 < test.in > test.out  0.19s user 0.00s system 99% cpu 0.191 total
+./solution_3 < test.in > test.out  0.04s user 0.02s system 99% cpu 0.060 total
+
+# 1000 1000 20000
+./solution_1 < test.in > test.out  1.96s user 0.00s system 99% cpu 1.963 total
+./solution_2 < test.in > test.out  0.08s user 0.01s system 99% cpu 0.091 total
+./solution_3 < test.in > test.out  0.07s user 0.01s system 99% cpu 0.081 total
+
+# 2000 2000 20000
+./solution_1 < test.in > test.out  8.34s user 0.00s system 99% cpu 8.340 total
+./solution_2 < test.in > test.out  0.34s user 0.01s system 99% cpu 0.351 total
+./solution_3 < test.in > test.out  0.24s user 0.03s system 99% cpu 0.270 total
+./solution_1 < test.in > test.out  40.23s user 0.00s system 99% cpu 40.239 total
+./solution_2 < test.in > test.out  0.50s user 0.01s system 98% cpu 0.523 total
+./solution_3 < test.in > test.out  0.24s user 0.05s system 96% cpu 0.296 total
+./solution_1 < test.in > test.out  43.22s user 0.04s system 99% cpu 43.261 total
+./solution_3 < test.in > test.out  0.27s user 0.01s system 99% cpu 0.282 total
