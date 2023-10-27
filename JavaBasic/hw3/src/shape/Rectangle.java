@@ -24,7 +24,27 @@ public class Rectangle extends Shape {
         return height;
     }
 
+    public double getWidth() {
+        return width;
+    }
+
     public void setHeight(double h) {
         height = h;
+    }
+
+    public void setWidth(double w) {
+        width = w;
+    }
+
+    public double getArea() {
+        return width * height;
+    }
+
+    public double getPerimeter() {
+        return (width + height) * 2;
+    }
+
+    public String toString() {
+        return String.format("Rectangle(%s)", getColor());
     }
 }

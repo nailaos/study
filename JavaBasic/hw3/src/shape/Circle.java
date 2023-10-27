@@ -34,6 +34,6 @@ public class Circle extends Shape {
     }
 
     public String toString() {
-        return String.format("Circle(%s)" + getColor());
+        return String.format("Circle(%s)", getColor());
     }
 }
