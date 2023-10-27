@@ -39,6 +39,7 @@ public class Shapes {
             if (i < shapes.length - 1)
                 res.append(",");
         }
+        res.append("]");
         return res.toString();
     }
 }

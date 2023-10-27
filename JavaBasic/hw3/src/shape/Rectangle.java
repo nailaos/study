@@ -1,8 +1,8 @@
 package shape;
 
 public class Rectangle extends Shape {
-    private double height;
-    private double width;
+    private double height = 0;
+    private double width = 0;
 
     Rectangle() {
 

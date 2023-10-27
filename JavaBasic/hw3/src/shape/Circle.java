@@ -1,7 +1,7 @@
 package shape;
 
 public class Circle extends Shape {
-    private double radius;
+    private double radius = 0;
 
     Circle() {
 
