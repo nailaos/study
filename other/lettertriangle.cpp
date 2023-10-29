@@ -1,15 +1,28 @@
 #include <cmath>
+#include <iomanip>
 #include <iostream>
 using namespace std;
+
+void print_char(char c, int i, int end) {
+    if (i > end)
+        return;
+    cout << (char)(c - abs(i));
+    print_char(c, i + 1, end);
+}
+
+void print_space(int n) {
+    if (!n)
+        return;
+    cout << " ";
+    print_space(n - 1);
+}
 
 void print_tower(char c, int n, int spa) {
     if ((n == 1 && spa == -1) || n == -1 && (int)c == 'A' - 1)
         return;
-    for (int i = 0; i < spa; i++)
-        cout << " ";
+    print_space(spa);
     int start = 'A' - c;
-    for (int i = start; i <= -start; i++)
-        cout << (char)(c - abs(i));
+    print_char(c, start, -start);
     cout << endl;
     print_tower(char(c + n), n, spa - n);
 }
