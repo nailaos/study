@@ -89,12 +89,15 @@ void writeTree() {
 }
 
 void printTree() {
+    cout << endl;
+    for (int i = 0; i < 54; i++)
+        cout << " ";
     cout << "Haffman Tree" << endl;
-    for (int i = 0; i < 25; i++)
+    for (int i = 0; i < 120; i++)
         cout << "=";
     cout << endl;
     cout << strTree << endl;
-    for (int i = 0; i < 25; i++)
+    for (int i = 0; i < 120; i++)
         cout << "=";
     cout << endl;
     for (int i = 0; i < 27; i++) {
@@ -152,7 +155,10 @@ void textToCode() {
     writeFile("CodeFile.txt", code);
 }
 
+void init() { cout << "请输入字符个数以及字符序列(注意空格用'%'代替)" << endl; }
+
 int main() {
+    init();
     int n;
     cin >> n;
     vector<Node *> nodes;

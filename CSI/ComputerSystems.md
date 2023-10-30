@@ -90,3 +90,62 @@
       `&E[i] - E = i`
   - 嵌套数组
     - 索引变为伸缩的偏移量即可
+
+#### 第七章 链接
+
+- 7.1 编译器驱动程序
+  - 编译命令
+  ```shell
+  gcc -Og -o prog main.c sum.c
+  # C预处理器，将源文件翻译为一个ASCII码的中间文件main.i
+  cpp [other aruguments] main.c main.i
+  # C编译器，将main.i翻译为汇编语言文件main.s
+  ccl main.i -Og [other comments] -o main.s
+  # 运行汇编器，将main.s翻译为一个可重定位目标文件
+  as [other arguments] -o main.o main.s
+  # 链接
+  ld -o prog [system object files and args] main.o sum.o
+  ```
+- 7.2 静态链接
+  - 链接器必须完成两个任务
+    - 符号解析
+    - 重定位
+- 7.3 目标文件
+  - 目标文件有三种形式
+    - 可重定位目标文件
+    -
+    -
+- 7.4 可重定位目标文件
+  - ELF header
+  - .text
+  - .dodata
+  - .bss
+  - .symtab
+  - .rel.text
+  - .rel.data
+  - .debug
+  - .line
+  - .strlab
+  - 节头部表
+- 7.5 符号和符号表
+  - 三种符号
+    - 全局符号
+    - 外部符号
+    - 局部符号
+  - 符号表
+- 7.6 符号解析
+  - 解析多重定义全局符号
+  - 与静态库链接
+  - 链接器如何使用静态库来解析文件
+- 7.7 重定位
+  - 重定位由两步组成
+    - 重定位节和符号定义
+    - 重定位节中的符号引用
+      - 依赖于可重定位目标模块中重定位条目的数据结构
+  - 重定位条目
+    - 重定位PC相对引用
+    - 重定位绝对引用
+- 7.8 可执行目标文件
+  - 只读内存段(代码段)
+  - 读/写内存段(数据段)
+  - 不加载到内存的符号表和调试信息
