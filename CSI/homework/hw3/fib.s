@@ -45,16 +45,21 @@ fib:
     # n is in %rdi
     pushq %rbp
     movq  %rsp, %rbp
+    pushq %rbx
+    pushq %r8
     movq %rdi, %rax
     cmpq $2, %rdi
     jl fib_end
     decq %rdi
+    movq %rdi, %rbx
     call fib
     movq %rax, %r8
-    decq %rdi
+    leaq -1(%rbx), %rdi
     call fib
     addq %r8, %rax
 fib_end:
+    popq %r8
+    popq %rbx
     movq %rsp, %rbp
     popq %rbp
     ret
