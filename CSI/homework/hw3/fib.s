@@ -119,6 +119,14 @@ itoa_digits:
     # hint1: 使用cqto指令从32位扩展至64位，再用divq指令获取 商（%rax）和 余数（%rdx）
     # hint2: 通过加上 $DIGIT_0 将余数转换为字符，并压入栈中保存，注意压入的是 X86-64寄存器
     # hint3: 更新待输出的字符总数（%rbx）中，这将作为print_digits的结束依据
+.L1:
+    cqto
+    divq %rsi
+    addq $48, %rdx
+    pushq %rdx
+    incq %rbx
+    testq %rax, %rax
+    jg .L1
 
 print_digits:
     # Reference: https://blog.rchapman.org/posts/Linux_System_Call_Table_for_x86_64/
