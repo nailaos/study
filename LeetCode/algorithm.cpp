@@ -3,6 +3,7 @@
 #include <iostream>
 #include <map>
 #include <queue>
+#include <stack>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -18,6 +19,17 @@ struct ListNode {
 
 class Solution {
   private:
+    string phonemap[8] = {"abc", "def",  "ghi", "jkl",
+                          "mno", "pqrs", "tuv", "wxyz"};
+
+    void mergeSort(vector<int> &num, int lo, int hi) {
+        if (hi - lo < 2)
+            return;
+        int mi = (lo + hi) >> 1;
+        mergeSort(num, lo, mi);
+        mergeSort(num, mi, hi);
+    }
+
     void quickSort(vector<int> &nums, int lef, int rit) {
         if (lef >= rit)
             return;
@@ -431,14 +443,264 @@ class Solution {
     }
 
     // NOTE: 17.电话号码的字母组合
-    vector<string> letterCombinations(string digits) {
-        int n = digits.length();
-        int sum = pow(3, n);
-        vector<string> ans(sum);
+    // NOTE: 用数组去存储对应字母的选择
+    vector<string> letterCombinations1(string digits) {
+        if (digits == "")
+            return {};
         unordered_map<char, string> phoneMap{
             {'2', "abc"}, {'3', "def"},  {'4', "ghi"}, {'5', "jkl"},
             {'6', "mno"}, {'7', "pqrs"}, {'8', "tuv"}, {'9', "wxyz"}};
+        int n = digits.length();
+        int sum = 1;
+        vector<int> up(n);
+        vector<int> curr(n, 0);
+        for (int i = 0; i < n; i++) {
+            if (digits[i] == '7' || digits[i] == '9') {
+                up[i] = 4;
+                sum *= 4;
+            } else {
+                up[i] = 3;
+                sum *= 3;
+            }
+        }
+        vector<string> ans(sum);
+        for (int i = 0; i < sum; i++) {
+            vector<char> tmp(n);
+            for (int j = 0; j < n; j++)
+                tmp[j] = phoneMap[digits[j]][curr[j]];
+            ans[i] = string(tmp.begin(), tmp.end());
+            int l = n - 1;
+            curr[l]++;
+            while (curr[l] == up[l]) {
+                curr[l] = 0;
+                l--;
+                if (l < 0)
+                    break;
+                curr[l]++;
+            }
+        }
         return ans;
+    }
+
+    // PERF: 回溯法递归
+    vector<string> letterCombinations2(string digits) {
+        if (digits == "")
+            return {};
+        vector<string> ans;
+        string last;
+        backTrack(last, digits, 0, ans);
+        return ans;
+    }
+
+    void backTrack(string &last, const string &digits, int num,
+                   vector<string> &ans) {
+        if (num == digits.length()) {
+            ans.push_back(last);
+            return;
+        }
+        for (char c : phonemap[digits[num] - '2']) {
+            last.push_back(c);
+            backTrack(last, digits, num + 1, ans);
+            last.pop_back();
+        }
+    }
+
+    // NOTE: 18.四数之和
+    // PERF: 和三数之和一样，排序加双指针
+    vector<vector<int>> fourSum(vector<int> &nums, int target) {
+        vector<vector<int>> ans;
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+        for (int i = 0; i < n - 3; i++) {
+            if (i && nums[i] == nums[i - 1])
+                continue;
+            for (int j = i + 1; j < n - 2; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1])
+                    continue;
+                int l = j + 1;
+                int r = n - 1;
+                while (l < r) {
+                    long long int tmp =
+                        (long long int)nums[i] + (long long int)nums[j] +
+                        (long long int)nums[l] + (long long int)nums[r] -
+                        (long long int)target;
+                    if (tmp > 0)
+                        r--;
+                    else if (tmp < 0)
+                        l++;
+                    else {
+                        ans.push_back({nums[i], nums[j], nums[l], nums[r]});
+                        l++;
+                        r--;
+                        while (l < r && nums[l] == nums[l - 1])
+                            l++;
+                        while (l < r && nums[r] == nums[r + 1])
+                            r--;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+
+    // NOTE: 19.删除链表的倒数第n个节点
+    // NOTE: 计算链表的长度
+    ListNode *removeNthFromEnd1(ListNode *head, int n) {
+        ListNode *h = head;
+        int num = 0;
+        while (h) {
+            num++;
+            h = h->next;
+        }
+        num -= n;
+        if (!num) {
+            head = head->next;
+            return head;
+        }
+        h = head;
+        for (int i = 0; i < num - 1; i++)
+            h = h->next;
+        ListNode *tmp = h->next;
+        h->next = tmp->next;
+        tmp = nullptr;
+        return head;
+    }
+
+    // PERF: 双指针
+    ListNode *removeNthFromEnd2(ListNode *head, int n) {
+        ListNode *fast = head;
+        ListNode *slow = head;
+        for (int i = 0; i < n && fast; i++)
+            fast = fast->next;
+        if (!fast) {
+            head = head->next;
+            return head;
+        }
+        while (fast->next) {
+            fast = fast->next;
+            slow = slow->next;
+        }
+        slow->next = slow->next->next;
+        return head;
+    }
+
+    // NOTE: 20.有效的括号
+    // NOTE: 栈
+    bool isValid1(string s) {
+        stack<char> sta;
+        for (char c : s) {
+            if (c == '(' || c == '[' || c == '{')
+                sta.push(c);
+            else {
+                if (sta.empty())
+                    return false;
+                if (c == ')') {
+                    if (sta.top() == '(')
+                        sta.pop();
+                    else
+                        return false;
+                } else if (c == ']') {
+                    if (sta.top() == '[')
+                        sta.pop();
+                    else
+                        return false;
+                } else if (c == '}') {
+                    if (sta.top() == '{')
+                        sta.pop();
+                    else
+                        return false;
+                }
+            }
+        }
+        return sta.empty();
+    }
+
+    // PERF: 栈 + map
+    bool isValid2(string s) {
+        int n = s.length();
+        if (n % 2 == 1)
+            return false;
+        unordered_map<char, char> pairs = {{')', '('}, {']', '['}, {'}', '{'}};
+        stack<char> stk;
+        for (char c : s) {
+            if (pairs.count(c)) {
+                if (stk.empty() || stk.top() != pairs[c])
+                    return false;
+                stk.pop();
+            } else {
+                stk.push(c);
+            }
+        }
+        return stk.empty();
+    }
+
+    // NOTE: 21.合并两个有序链表
+    // NOTE: 迭代实现
+    ListNode *mergeTwoLists1(ListNode *list1, ListNode *list2) {
+        ListNode *ans = nullptr;
+        ListNode *p = nullptr;
+        if (!list1)
+            return list2;
+        if (!list2)
+            return list1;
+        if (list2->val < list1->val) {
+            ans = list2;
+            p = ans;
+            list2 = list2->next;
+        } else {
+            ans = list1;
+            p = ans;
+            list1 = list1->next;
+        }
+        while (list1 && list2) {
+            if (list1->val < list2->val) {
+                p->next = list1;
+                p = p->next;
+                list1 = list1->next;
+            } else {
+                p->next = list2;
+                p = p->next;
+                list2 = list2->next;
+            }
+        }
+        if (list1)
+            p->next = list1;
+        else if (list2)
+            p->next = list2;
+        return ans;
+    }
+
+    // NOTE: 递归实现
+    ListNode *mergeTwoLists2(ListNode *l1, ListNode *l2) {
+        if (!l1)
+            return l2;
+        if (!l2)
+            return l1;
+        if (l1->val < l2->val) {
+            l1->next = mergeTwoLists2(l1->next, l2);
+            return l1;
+        } else {
+            l2->next = mergeTwoLists2(l1, l2->next);
+            return l2;
+        }
+    }
+
+    // PERF: 迭代优化 避免空数组
+    ListNode *mergeTwoLists3(ListNode *list1, ListNode *list2) {
+        ListNode *ans = new ListNode(-1);
+        ListNode *p = ans;
+        while (list1 && list2) {
+            if (list1->val < list2->val) {
+                p->next = list1;
+                list1 = list1->next;
+            } else {
+                p->next = list2;
+                list2 = list2->next;
+            }
+            p = p->next;
+        }
+        p->next = list1 == nullptr ? list2 : list1;
+        return ans->next;
     }
 
     // 309.买卖股票的最佳时机含冷冻期
@@ -458,10 +720,13 @@ class Solution {
 
 int main() {
     Solution test;
+    vector<string> str1;
     string s1;
     string s2;
     int n1;
-    cin >> s1 >> s2;
-    cout << test.isMatch(s1, s2) << endl;
+    cin >> s1;
+    str1 = test.letterCombinations1(s1);
+    for (int i = 0; i < str1.size(); i++)
+        cout << str1[i] << endl;
     return 0;
 }
