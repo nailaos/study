@@ -10,5 +10,8 @@
 # Ignore vscode/
 *.vscode/
 
+# NOTE: Ignore zip file 
+*.zip
+
 ### Above combination will ignore all files without extension ###
 
