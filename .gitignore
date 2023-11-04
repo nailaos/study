@@ -6,6 +6,9 @@
   
 # Unignore all dirs
 !*/
+
+# NOTE: Ignore bin/ dir
+*bin/
    
 # Ignore vscode/
 *.vscode/
