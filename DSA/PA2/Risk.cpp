@@ -27,7 +27,7 @@ void mergeSort(int *num, int lo, int hi) {
 }
 
 int binarySearch(int *num, int lo, int hi, int target) {
-    int result = 0;
+    int result = -1;
     while (lo <= hi) {
         int m = (hi + lo) >> 1;
         if (num[m] < target) {
