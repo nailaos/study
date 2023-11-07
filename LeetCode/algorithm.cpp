@@ -720,6 +720,18 @@ class Solution {
         }
     }
 
+    // NOTE: 23.合并k个升序链表
+    // NOTE: 两两排序 O(k^2*n)
+    ListNode *mergeKLists(vector<ListNode *> &lists) {
+        int n = lists.size();
+        if (!n)
+            return nullptr;
+        for (int i = n - 2; i >= 0; i--) {
+            lists[i] = mergeTwoLists3(lists[i], lists[i + 1]);
+        }
+        return lists[0];
+    }
+
     vector<string> generateParenthesis(int n) {
         unordered_set<string> ans;
         string str = "()";
