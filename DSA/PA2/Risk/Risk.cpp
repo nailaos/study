@@ -102,14 +102,11 @@ int main() {
     int *days = new int[n];
     int *ans = new int[n];
     int *num = new int[n];
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n; i++) {
         scanf("%d", &days[i]);
-    /* for (int i = 0; i < n; i++) { */
-    /*     if (i && i % 15 == 0) */
-    /*         cout << endl; */
-    /*     cout << days[i] << " "; */
-    /* } */
-    /* cout << endl; */
+        if (days[i] > 2000000)
+            days[i] = 0;
+    }
     ans[0] = 0;
     num[0] = 0;
     int len = 0;
@@ -118,18 +115,6 @@ int main() {
     scanf("%d", &tmp);
     for (int i = 1; i < n; i++) {
         scanf("%d", &tmp);
-        /* cout << "=================" << endl; */
-        /* cout << "       " << i << endl; */
-        /* cout << "last: " << last << "    len: " << len << endl; */
-        /* cout << "days: "; */
-        /* for (int i = 0; i <= len; i++) */
-        /*     cout << days[i] << " "; */
-        /* cout << endl << "num: "; */
-        /* for (int i = 0; i <= len; i++) */
-        /*     cout << num[i] << " "; */
-        /* cout << endl << "m:       " << tmp; */
-        /* cout << endl << "current: " << days[i - 1] << endl; */
-        /* cout << "=================" << endl; */
         if (tmp <= 1000000 && i - (int)tmp > 0) {
             last = binarySearch0(num, last, len, i - (int)tmp);
         }
@@ -141,30 +126,26 @@ int main() {
         days[len] = days[i - 1];
         num[len] = i;
         ans[i] = days[last];
-        /* cout << "ans[" << i + 1 << "]: " << ans[i] << endl; */
     }
-    /* for (int i = 0; i < n; i++) */
-    /*     cout << ans[i] << " "; */
-    /* cout << endl; */
     quickSort(ans, 0, n - 1);
-    /* for (int i = 0; i < n; i++) */
-    /*     cout << ans[i] << " "; */
-    /* cout << endl; */
     int k;
     scanf("%d", &k);
     for (int i = 0; i < k; i++) {
         unsigned int a, b;
         scanf("%d %d", &a, &b);
         if (a >= 2000000)
-            cout << n << " " << 0 << endl;
+            printf("%d 0\n", n);
         else if (b >= 2000000) {
             int x = binarySearch1(ans, 0, n - 1, a);
-            cout << x << " " << n - x << endl;
+            printf("%d %d\n", x, n - x);
         } else {
             int x = binarySearch1(ans, 0, n - 1, a);
             int y = binarySearch1(ans, 0, n - 1, b) - x;
-            cout << x << " " << y << endl;
+            printf("%d %d\n", x, y);
         }
     }
     return 0;
+    delete[] days;
+    delete[] ans;
+    delete[] num;
 }
