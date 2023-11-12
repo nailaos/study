@@ -4,6 +4,7 @@
 #include <map>
 #include <queue>
 #include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -701,6 +702,41 @@ class Solution {
         }
         p->next = list1 == nullptr ? list2 : list1;
         return ans->next;
+    }
+
+    // NOTE: 22.括号生成
+    // NOTE: 回溯 + 去重
+    void backPairs(unordered_set<string> &ans, string &str, int n) {
+        if (!n) {
+            ans.insert(str);
+            return;
+        }
+        string tmp = str;
+        int len = str.length();
+        for (int i = 0; i < len; i++) {
+            str = tmp.substr(0, i) + "()" + tmp.substr(i, len - i);
+            backPairs(ans, str, n - 1);
+            str = tmp;
+        }
+    }
+
+    // NOTE: 23.合并k个升序链表
+    // NOTE: 两两排序 O(k^2*n)
+    ListNode *mergeKLists(vector<ListNode *> &lists) {
+        int n = lists.size();
+        if (!n)
+            return nullptr;
+        for (int i = n - 2; i >= 0; i--) {
+            lists[i] = mergeTwoLists3(lists[i], lists[i + 1]);
+        }
+        return lists[0];
+    }
+
+    vector<string> generateParenthesis(int n) {
+        unordered_set<string> ans;
+        string str = "()";
+        backPairs(ans, str, n - 1);
+        return vector<string>(ans.begin(), ans.end());
     }
 
     // 309.买卖股票的最佳时机含冷冻期

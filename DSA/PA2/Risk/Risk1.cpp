@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 using namespace std;
 
 void merge(int *num, int lo, int mi, int hi) {
@@ -42,34 +43,44 @@ int binarySearch(int *num, int lo, int hi, int target) {
 
 int main() {
     int n;
-    cin >> n;
+    scanf("%d", &n);
     int *days = new int[n];
     int *ans = new int[n];
     for (int i = 0; i < n; i++)
-        cin >> days[i];
+        scanf("%d", &days[i]);
     ans[0] = 0;
-    long long int tmp;
-    cin >> tmp;
+    unsigned int tmp;
+    int last = 0;
+    scanf("%d", &tmp);
     for (int i = 1; i < n; i++) {
-        cin >> tmp;
-        long long int target = i - tmp;
-        if (target < 0)
-            target = 0;
-        if (days[i - 1] > days[i - 2]) {
-            for (int j = i - 2; j >= target; j--) {
-                if (days[j] >= days[j + 1])
-                    break;
-                days[j] = days[j + 1];
-            }
+        scanf("%d", &tmp);
+        if (days[i - 1] >= ans[i - 1]) {
+            ans[i] = days[i - 1];
+            last = i - 1;
+            continue;
         }
-        ans[i] = days[target];
+        if (tmp <= 1000000)
+            last = max(last, i - (int)tmp);
+        for (int j = i - 2; j >= last; j--) {
+            if (days[j] < days[j + 1])
+                days[j] = days[j + 1];
+            else
+                break;
+        }
+        ans[i] = days[last];
     }
+    for (int i = 0; i < n; i++)
+        cout << ans[i] << " ";
+    cout << endl;
     mergeSort(ans, 0, n);
+    for (int i = 0; i < n; i++)
+        cout << ans[i] << " ";
+    cout << endl;
     int k;
-    cin >> k;
+    scanf("%d", &k);
     for (int i = 0; i < k; i++) {
         unsigned int a, b;
-        cin >> a >> b;
+        scanf("%d %d", &a, &b);
         if (a >= 2000000)
             cout << n << " " << 0 << endl;
         else if (b >= 2000000) {
