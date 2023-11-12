@@ -739,6 +739,39 @@ class Solution {
         return vector<string>(ans.begin(), ans.end());
     }
 
+    // NOTE: 26.删除有序数组中的重复项
+    // NOTE: 借助额外数组
+    int removeDuplicates1(vector<int> &nums) {
+        if (nums.empty())
+            return 0;
+        int n = nums.size();
+        vector<int> ans;
+        ans.push_back(nums[0]);
+        for (int i = 1; i < n; i++)
+            if (nums[i] != ans.back())
+                ans.push_back(nums[i]);
+        int k = ans.size();
+        nums.resize(k);
+        for (int i = 0; i < k; i++)
+            nums[i] = ans[i];
+        return k;
+    }
+
+    // PERF: 双指针
+    int removeDuplicates2(vector<int> &nums) {
+        if (nums.empty())
+            return 0;
+        int slow = 0;
+        for (int i = 1; i < nums.size(); i++)
+            if (nums[i] != nums[slow]) {
+                slow++;
+                nums[slow] = nums[i];
+            }
+        slow++;
+        nums.resize(slow);
+        return slow;
+    }
+
     // 309.买卖股票的最佳时机含冷冻期
     int maxProfit(vector<int> &prices) {
         int a = 0;          // 未持有股票和非冷冻期
