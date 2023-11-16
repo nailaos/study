@@ -24,10 +24,7 @@ def plot_points_and_lines(n, points):
     plt.show()
 
 
-# 从文件中读取数据
-file_path = input("请输入包含点坐标的文件路径：")
-
-with open(file_path, "r") as file:
+with open("input.txt", "r") as file:
     # 读取点的数量
     n = int(file.readline())
 
