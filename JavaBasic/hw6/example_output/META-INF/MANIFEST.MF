@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Created-By: 15.0.2 (Oracle Corporation)
+Main-Class: simplenotepad.SimpleNotepad
+
