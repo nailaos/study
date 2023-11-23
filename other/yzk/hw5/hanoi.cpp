@@ -1,8 +1,7 @@
 #include <iostream>
 #include <iomanip>
-#include <cstdio>
-#include <conio.h>
 #include <windows.h>
+#include "show.h"
 using namespace std;
 
 int A[10];
@@ -13,106 +12,107 @@ int step = 1;
 bool show;
 static int delay;
 
-static HANDLE hout = GetStdHandle(STD_OUTPUT_HANDLE);
+int minusPillars(char x);
 
-void cct_cls();
-void cct_gotoxy(const int X, const int Y);
+void addPillars(char x, int tar);
 
-int pillarsTop(char x) {
-    switch (x) {
-        case 'A':
-            return A[a - 1];
-        case 'B':
-            return B[b - 1];
-        case 'C':
-            return C[c - 1];
-        default:
-            return -1;
-    }
+void printSymbol(int n, char x);
+
+void callPause() {
+    cct_gotoxy(50, 32);
+    system("pause");
 }
 
 void printStep(char x, char z) {
-    cout << "enter printStep" << endl;
-    cct_gotoxy(0, 30);
-    cout << "第" << setw(4) << step << " 步(" << setw(2) << pillarsTop(x) << "): " << x
+    cct_gotoxy(14, 30);
+    int tmp[3] = { A[a - 1],B[b - 1],C[c - 1] };
+    cout << "第" << setw(4) << step << " 步(" << setw(2) << setfill('#') << left << tmp[x - 'A'] << "): " << x
         << "-->" << z << " ";
+    if (show) {
+        cout << "A:";
+        for (int i = 0; i < a; i++)
+            cout << setw(2) << setfill(' ') << right << A[i];
+        printSymbol(2 * (10 - a), ' ');
+        cout << "B:";
+        for (int i = 0; i < b; i++)
+            cout << setw(2) << setfill(' ') << right << B[i];
+        printSymbol(2 * (10 - b), ' ');
+        cout << "C:";
+        for (int i = 0; i < c; i++)
+            cout << setw(2) << setfill(' ') << right << C[i];
+    }
+    if (!delay)
+        callPause();
 }
 
 void printPillars() {
-    int r = 10;
-    int l = 22;
-    cct_gotoxy(r, l);
-    cout << "  A         B         C  ";
+    int l = 3;
+    int r = 22;
+    cct_gotoxy(l, r);
+    cout << "  A";
+    printSymbol(9, ' ');
+    cout << "B";
+    printSymbol(9, ' ');
+    cout << "C";
     r--;
-    cct_gotoxy(r, l);
-    cout << "=====================";
+    cct_gotoxy(l, r);
+    printSymbol(25, '=');
     int i = 0, j = 0, k = 0;
     while (i < a || j < b || k < c) {
-
+        r--;
+        cct_gotoxy(l, r);
+        cout << ' ';
+        if (i < a) {
+            cout << setw(2) << setfill(' ') << right << A[i];
+            i++;
+        } else
+            cout << "  ";
+        printSymbol(8, ' ');
+        if (j < b) {
+            cout << setw(2) << setfill(' ') << right << B[j];
+            j++;
+        } else
+            cout << "  ";
+        printSymbol(8, ' ');
+        if (k < c) {
+            cout << setw(2) << setfill(' ') << right << C[k];
+            k++;
+        }
     }
-}
-
-int minusPillars(char x) {
-    switch (x) {
-        case 'A':
-            a--;
-            return A[a];
-        case 'B':
-            b--;
-            return B[b];
-        case 'C':
-            c--;
-            return C[c];
-        default:
-            return -1;
-    }
-}
-
-void addPillars(char x, int tar) {
-    switch (x) {
-        case 'A':
-            A[a] = tar;
-            a++;
-            break;
-        case 'B':
-            B[b] = tar;
-            b++;
-            break;
-        case 'C':
-            C[c] = tar;
-            c++;
-            break;
-        default:
-            return;
-    }
+    if (!delay)
+        callPause();
 }
 
 void movePillars(char x, char z) {
-    int cols[3] = { 10, 20, 30 };
-    int rows[3] = { a,b,c };
+    printStep(x, z);
+    printPillars();
+    int tmp = minusPillars(x);
+    int cols[3] = { 4, 14, 24 };
+    int rows[3] = { 20 - a,20 - b,20 - c };
     int xr = rows[x - 'A'];
     int xl = cols[x - 'A'];
     int zr = rows[z - 'A'];
     int zl = cols[z - 'A'];
-    int tmp = minusPillars(x);
-    cct_gotoxy(xr, xl);
-    Sleep(delay);
-    cout << ' ';
-    Sleep(delay);
+    cct_gotoxy(xl, xr);
+    if (delay)
+        Sleep(10 * delay);
+    cout << "  ";
     addPillars(z, tmp);
-    cct_gotoxy(zr, zl);
-    cout << tmp;
-    Sleep(delay);
+    cct_gotoxy(zl, zr);
+    if (delay)
+        Sleep(10 * delay);
+    cout << setw(2) << tmp;
+    if (delay)
+        Sleep(10 * delay);
     cct_cls();
 }
 
 void move(int n, char x, char y, char z) {
     if (n == 1) {
-        printStep(x, z);
         movePillars(x, z);
+        step++;
     } else {
         move(n - 1, x, z, y);
-        printStep(x, z);
         movePillars(x, z);
         step++;
         move(n - 1, y, x, z);
@@ -155,35 +155,51 @@ int main() {
     cout << "请输入目标柱(A-C):" << endl;
     cin >> z;
     y = (char)(3 - (x - 'A') - (z - 'A') + 'A');
-    // cout << "请输入移动速度(0-5: 0-按回车单步演示 1-延时最长 5-延时最短)" << endl;
-    // cin >> delay;
-    // delay = 100;
-    // cout << "请输入是否显示内部数组值(0-不显示 1-显示)" << endl;
-    // cin >> show;
+    cout << "请输入移动速度(0-5: 0-按回车单步演示 1-延时最长 5-延时最短)" << endl;
+    cin >> delay;
+    delay = 100;
+    cout << "请输入是否显示内部数组值(0-不显示 1-显示)" << endl;
+    cin >> show;
     init(x, n);
     move(n, x, y, z);
 }
 
-void cct_cls() {
-    COORD coord = { 0, 0 };
-    CONSOLE_SCREEN_BUFFER_INFO binfo; /* to get buffer info */
-    DWORD num;
-
-    /* 取当前缓冲区信息 */
-    GetConsoleScreenBufferInfo(hout, &binfo);
-    /* 填充字符 */
-    FillConsoleOutputCharacter(hout, (TCHAR)' ', binfo.dwSize.X * binfo.dwSize.Y, coord, &num);
-    /* 填充属性 */
-    FillConsoleOutputAttribute(hout, binfo.wAttributes, binfo.dwSize.X * binfo.dwSize.Y, coord, &num);
-
-    /* 光标回到(0,0) */
-    SetConsoleCursorPosition(hout, coord);
-    return;
+int minusPillars(char x) {
+    switch (x) {
+        case 'A':
+            a--;
+            return A[a];
+        case 'B':
+            b--;
+            return B[b];
+        case 'C':
+            c--;
+            return C[c];
+        default:
+            return -1;
+    }
 }
 
-void cct_gotoxy(const int X, const int Y) {
-    COORD coord;
-    coord.X = X;
-    coord.Y = Y;
-    SetConsoleCursorPosition(hout, coord);
+void addPillars(char x, int tar) {
+    switch (x) {
+        case 'A':
+            A[a] = tar;
+            a++;
+            break;
+        case 'B':
+            B[b] = tar;
+            b++;
+            break;
+        case 'C':
+            C[c] = tar;
+            c++;
+            break;
+        default:
+            return;
+    }
+}
+
+void printSymbol(int n, char x) {
+    for (int i = 0; i < n; i++)
+        cout << x;
 }
