@@ -4,8 +4,8 @@
 #include "show.h"
 using namespace std;
 
-int A[10];
-int B[10];
+int A[11];
+int B[11];
 int C[10];
 int a, b, c;
 int step = 1;
@@ -18,12 +18,17 @@ void addPillars(char x, int tar);
 
 void printSymbol(int n, char x);
 
-void callPause() {
-    cct_gotoxy(50, 32);
-    system("pause");
-}
+void callPause();
+
+bool success();
+
+void dealDelay();
 
 void printStep(char x, char z) {
+    cout << "从 " << (char)A[10] << " 移动到 " << (char)B[10] << "，" << "共 " << (a + b + c) << " 层，延时设置为 " << delay << "，";
+    if (!show)
+        cout << "不";
+    cout << "显示内部数组值" << endl;
     cct_gotoxy(14, 30);
     int tmp[3] = { A[a - 1],B[b - 1],C[c - 1] };
     cout << "第" << setw(4) << step << " 步(" << setw(2) << setfill('#') << left << tmp[x - 'A'] << "): " << x
@@ -41,8 +46,6 @@ void printStep(char x, char z) {
         for (int i = 0; i < c; i++)
             cout << setw(2) << setfill(' ') << right << C[i];
     }
-    if (!delay)
-        callPause();
 }
 
 void printPillars() {
@@ -79,8 +82,6 @@ void printPillars() {
             k++;
         }
     }
-    if (!delay)
-        callPause();
 }
 
 void movePillars(char x, char z) {
@@ -94,17 +95,17 @@ void movePillars(char x, char z) {
     int zr = rows[z - 'A'];
     int zl = cols[z - 'A'];
     cct_gotoxy(xl, xr);
-    if (delay)
-        Sleep(10 * delay);
+    dealDelay();
     cout << "  ";
     addPillars(z, tmp);
     cct_gotoxy(zl, zr);
-    if (delay)
-        Sleep(10 * delay);
     cout << setw(2) << tmp;
-    if (delay)
-        Sleep(10 * delay);
-    cct_cls();
+    dealDelay();
+
+    if (!success())
+        cct_cls();
+    else
+        callPause();
 }
 
 void move(int n, char x, char y, char z) {
@@ -155,9 +156,10 @@ int main() {
     cout << "请输入目标柱(A-C):" << endl;
     cin >> z;
     y = (char)(3 - (x - 'A') - (z - 'A') + 'A');
+    A[10] = x;
+    B[10] = z;
     cout << "请输入移动速度(0-5: 0-按回车单步演示 1-延时最长 5-延时最短)" << endl;
     cin >> delay;
-    delay = 100;
     cout << "请输入是否显示内部数组值(0-不显示 1-显示)" << endl;
     cin >> show;
     init(x, n);
@@ -202,4 +204,24 @@ void addPillars(char x, int tar) {
 void printSymbol(int n, char x) {
     for (int i = 0; i < n; i++)
         cout << x;
+}
+
+void callPause() {
+    cct_gotoxy(50, 32);
+    system("pause");
+}
+
+bool success() {
+    int tar = B[10] - 'A';
+    int num[3] = { a,b,c };
+    if (num[tar] == a + b + c)
+        return true;
+    return false;
+}
+
+void dealDelay() {
+    if (delay)
+        Sleep(100 * (6 - delay));
+    else
+        callPause();
 }
