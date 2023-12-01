@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 struct Range {
@@ -8,11 +9,10 @@ struct Range {
 };
 
 int n, m;
-Range *ranges;
-long long int *seg;
-short *lazy;
-bool *h;
-int lenS;
+Range* ranges;
+long long int* seg;
+short* lazy;
+bool* h;
 
 void init() {
     scanf("%d %d", &n, &m);
@@ -49,6 +49,18 @@ void dealLazy(int x, int start, int end) {
     lazy[l] += lazy[x];
     lazy[r] += lazy[x];
     lazy[x] = 0;
+}
+
+void printTree(int from, int to, int x) {
+    cout << setw(2) << x << " Range: [" << from << ", "
+        << to << "]  Value: " << seg[x]
+        << " Lazy: " <<
+        lazy[x] << " Len: [" << from << ", " << to << "] (" << to - from + 1 << ")\n";
+    if (from != to) {
+        int mid = (from + to) / 2;
+        printTree(from, mid, 2 * x);
+        printTree(mid + 1, to, 2 * x + 1);
+    }
 }
 
 void updateTree(int from, int to, int start, int end, int x) {
@@ -88,9 +100,11 @@ int main() {
         int to = ranges[i].end;
         if (h[i]) {
             updateTree(from, to, 1, n, 1);
+            printTree(1, n, 1);
         } else {
             long long int ans = searchTree(from, to, 1, n, 1);
             printf("%lld\n", ans);
+            printTree(1, n, 1);
         }
     }
     delete[] ranges;
