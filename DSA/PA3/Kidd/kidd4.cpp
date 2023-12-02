@@ -1,5 +1,4 @@
 #include <cstdio>
-#include <iomanip>
 #include <iostream>
 using namespace std;
 
@@ -9,11 +8,11 @@ struct Range {
 };
 
 int n;
-long long int *seg;
-int *lens;
-int *lazy;
+long long int* seg;
+Range* myRanges;
+int* lazy;
 
-void quickSort(int *num, int from, int to) {
+void quickSort(int* num, int from, int to) {
     if (from >= to)
         return;
     int a = from, b = to, tmp = num[(from + to) / 2];
@@ -34,12 +33,12 @@ void quickSort(int *num, int from, int to) {
         quickSort(num, a, to);
 }
 
-int binarySearch(int *num, int target, int from, int to) {
+int binarySearch(Range* num, int target, int from, int to) {
     int result = 0;
     while (from <= to) {
         int mid = (from + to) >> 1;
-        if (num[mid] <= target) {
-            result = mid + 1;
+        if (num[mid].start <= target) {
+            result = mid;
             from = mid + 1;
         } else {
             to = mid - 1;
@@ -48,19 +47,22 @@ int binarySearch(int *num, int target, int from, int to) {
     return result;
 }
 
-int removeCommon(int *num, int len) {
+int removeCommon(int* num, int len) {
     int slow = 0;
+    int extra = 0;
     for (int i = 1; i < len; i++)
         if (num[i] != num[slow]) {
             slow++;
             num[slow] = num[i];
+            if (num[slow] != num[slow - 1] + 1)
+                extra++;
         }
-    slow++;
-    return slow;
+    n = slow + 1;
+    return extra;
 }
 
-void init(Range *ranges, bool *h, int m) {
-    lens = new int[2 * m];
+void init(Range* ranges, bool* h, int m) {
+    int* lens = new int[2 * m];
     for (int i = 0; i < m; i++) {
         char c;
         scanf(" %c %d %d", &c, &ranges[i].start, &ranges[i].end);
@@ -69,41 +71,43 @@ void init(Range *ranges, bool *h, int m) {
         h[i] = (c == 'H');
     }
     quickSort(lens, 0, 2 * m - 1);
-    n = removeCommon(lens, 2 * m);
-    for (int i = 0; i < m; i++) {
-        ranges[i].start = binarySearch(lens, ranges[i].start, 0, n - 1);
-        ranges[i].end = binarySearch(lens, ranges[i].end, 0, n - 1);
+    int extra = removeCommon(lens, 2 * m);
+    myRanges = new Range[n + extra + 1];
+    int x = 1;
+    for (int i = 0; i < n; i++) {
+        myRanges[x].start = lens[i];
+        myRanges[x].end = lens[i];
+        x++;
+        if (i < n - 1 && lens[i] != lens[i + 1] - 1) {
+            myRanges[x].start = lens[i] + 1;
+            myRanges[x].end = lens[i + 1] - 1;
+            x++;
+        }
     }
-    seg = new long long[4 * n];
+    n += extra;
+    for (int i = 0; i < m; i++) {
+        ranges[i].start = binarySearch(myRanges, ranges[i].start, 1, n);
+        ranges[i].end = binarySearch(myRanges, ranges[i].end, 1, n);
+    }
+    seg = new long long int[4 * n];
     lazy = new int[4 * n];
+    delete[] lens;
 }
 
 void dealLazy(int x, int start, int end) {
     int l = 2 * x;
     int r = 2 * x + 1;
     int mid = (start + end) / 2;
-    seg[l] += lazy[x] * (lens[mid - 1] - lens[start - 1] + 1);
-    seg[r] += lazy[x] * (lens[end - 1] - lens[mid] + 1);
+    seg[l] += (long long)lazy[x] * (long long)(myRanges[mid].end - myRanges[start].start + 1);
+    seg[r] += (long long)lazy[x] * (long long)(myRanges[end].end - myRanges[mid + 1].start + 1);
     lazy[l] += lazy[x];
     lazy[r] += lazy[x];
     lazy[x] = 0;
 }
 
-void printTree(int from, int to, int x) {
-    cout << setw(2) << x << " Range: [" << from << ", " << to
-         << "]  Value: " << seg[x] << " Lazy: " << lazy[x] << " Len: ["
-         << lens[from - 1] << ", " << lens[to - 1] << "] ("
-         << lens[to - 1] - lens[from - 1] + 1 << ")\n";
-    if (from != to) {
-        int mid = (from + to) / 2;
-        printTree(from, mid, 2 * x);
-        printTree(mid + 1, to, 2 * x + 1);
-    }
-}
-
 void updateTree(int from, int to, int start, int end, int x) {
     if (from <= start && end <= to) {
-        seg[x] += lens[end - 1] - lens[start - 1] + 1;
+        seg[x] += (long long)(myRanges[end].end - myRanges[start].start + 1);
         lazy[x]++;
         return;
     }
@@ -134,24 +138,22 @@ long long int searchTree(int from, int to, int start, int end, int x) {
 int main() {
     int m;
     scanf("%d %d", &n, &m);
-    Range *ranges = new Range[m];
-    bool *h = new bool[m];
+    Range* ranges = new Range[m];
+    bool* h = new bool[m];
     init(ranges, h, m);
     for (int i = 0; i < m; i++) {
         int from = ranges[i].start;
         int to = ranges[i].end;
         if (h[i]) {
             updateTree(from, to, 1, n, 1);
-            printTree(1, n, 1);
         } else {
             long long int ans = searchTree(from, to, 1, n, 1);
             printf("%lld\n", ans);
-            printTree(1, n, 1);
         }
     }
     delete[] ranges;
     delete[] seg;
-    delete[] lens;
+    delete[] myRanges;
     delete[] lazy;
     delete[] h;
 }
