@@ -7,7 +7,7 @@ import java.net.URI;
 public class HTTPExample {
 
     public static void main(String[] args) throws Exception {
-        String url = "https://api.openweathermap.org/data/2.5/weather?lat=39.906217&lon=116.3912757&units=metric&appid={API KEY}";   
+/*        String url = "https://api.openweathermap.org/data/2.5/weather?lat=39.906217&lon=116.3912757&units=metric&appid={API KEY}";
         URL obj = new URI(url).toURL();
         
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -17,8 +17,8 @@ public class HTTPExample {
         int responseCode = con.getResponseCode();
         if (responseCode != 200); // Process network exception.
         // Read the response
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));*/
+        System.out.println("Hello, world!");
     }
 }
 
