@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="74ab7817-7cf8-4581-b8cc-b5b210b0c190" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../hw5/hw5.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code/lib/json-20231013.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/project_stu.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/HTTPExample.java" beforeDir="false" afterPath="$PROJECT_DIR$/code/HTTPExample.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/JsonExample.java" beforeDir="false" afterPath="$PROJECT_DIR$/code/JsonExample.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_stu.iml" beforeDir="false" afterPath="$PROJECT_DIR$/project_stu.iml" afterDir="false" />
-    </list>
+    <list default="true" id="74ab7817-7cf8-4581-b8cc-b5b210b0c190" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,13 +27,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/Study/study/JavaBasic/project_stu/code/lib"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Study/study/JavaBasic/project_stu/code/lib&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Study\study\JavaBasic\project_stu\code\lib" />
