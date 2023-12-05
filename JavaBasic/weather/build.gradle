@@ -10,7 +10,7 @@ plugins {
 }
 
 application {
-    mainClassName = 'Test'
+    mainClassName = 'Main'
 }
 
 repositories {
@@ -36,7 +36,7 @@ jar {
     // mainClassName = 'your.package.YourMainClass'
     manifest {
         attributes(
-            'Main-Class': 'Test'
+            'Main-Class': 'Main'
         )
     }
 }
