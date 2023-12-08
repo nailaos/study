@@ -1,7 +1,9 @@
+#include <cmath>
 #include <cstdio>
 #include <iostream>
 using namespace std;
 
+#define LONG_MAX 9223372036854775807;
 int d, n;
 
 struct KDtree {
@@ -17,6 +19,13 @@ struct KDtree {
         l = nullptr;
         r = nullptr;
         parent = nullptr;
+    }
+
+    KDtree* brother() {
+        if (this->parent->l == this)
+            return this->parent->r;
+        else
+            return this->parent->l;
     }
 };
 
@@ -45,8 +54,10 @@ void quickSort(int from, int to, int dim) {
 }
 
 void buildTree(KDtree* tree, int from, int to, int depth) {
-    if (from > to)
+    if (from > to) {
+        tree->dim = -1;
         return;
+    }
     int dim = depth % d;
     if (from == to) {
         tree->dim = dim;
@@ -60,10 +71,10 @@ void buildTree(KDtree* tree, int from, int to, int depth) {
     for (int i = 0; i < d; i++)
         tree->vect[i] = vects[mid][i];
     tree->l = new KDtree;
-    tree->r = new KDtree;
     tree->l->parent = tree;
-    tree->r->parent = tree;
     buildTree(tree->l, from, mid - 1, depth + 1);
+    tree->r = new KDtree;
+    tree->r->parent = tree;
     buildTree(tree->r, mid + 1, to, depth + 1);
 }
 
@@ -89,19 +100,50 @@ void init() {
     buildTree(tree, 0, n - 1, 0);
 }
 
-long long int findNearest(KDtree* tree, int* ques) { return 0; }
+long long int distance(int* x, int* y) {
+    long long res = 0;
+    for (int i = 0; i < d; i++)
+        res += (long long)(x[i] - y[i]) * (long long)(x[i] - y[i]);
+    return res;
+}
+
+void findNearest(KDtree* tre, int* ques, long long int& ans) {
+    if (!tre || tre->dim < 0)
+        return;
+    KDtree* curr = tre;
+    while (curr->l || curr->r) {
+        int dim = curr->dim;
+        if (ques[dim] < curr->vect[dim]) {
+            curr = curr->l;
+        } else {
+            curr = curr->r;
+        }
+    }
+    if (curr->dim < 0)
+        curr = curr->brother();
+    ans = min(ans, distance(ques, curr->vect));
+    while (curr != tre) {
+        int dim = curr->parent->dim;
+        if (sqrt(ans) > (double)(abs(ques[dim] - curr->parent->vect[dim]))) {
+            ans = min(ans, distance(ques, curr->parent->vect));
+            findNearest(curr->brother(), ques, ans);
+        }
+        curr = curr->parent;
+    }
+}
 
 int main() {
     int q;
     scanf("%d %d", &d, &n);
     init();
-    printTree(tree, 0);
+    //printTree(tree, 0);
     int* ques = new int[d];
     scanf("%d", &q);
     for (int i = 0; i < q; i++) {
         for (int j = 0; j < d; j++)
             scanf("%d", &ques[j]);
-        long long int ans = findNearest(tree, ques);
+        long long int ans = LONG_MAX;
+        findNearest(tree, ques, ans);
         printf("%lld\n", ans);
     }
     return 0;
