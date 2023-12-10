@@ -8,18 +8,10 @@ int d, n;
 
 struct KDtree {
     int dim;
-    int* vect;
+    int vect[5];
     KDtree* l;
     KDtree* r;
     KDtree* parent;
-
-    KDtree() {
-        dim = 0;
-        vect = new int[d];
-        l = nullptr;
-        r = nullptr;
-        parent = nullptr;
-    }
 
     KDtree* brother() {
         if (this->parent->l == this)
@@ -54,10 +46,6 @@ void quickSort(int from, int to, int dim) {
 }
 
 void buildTree(KDtree* tree, int from, int to, int depth) {
-    if (from > to) {
-        tree->dim = -1;
-        return;
-    }
     int dim = depth % d;
     if (from == to) {
         tree->dim = dim;
@@ -70,12 +58,16 @@ void buildTree(KDtree* tree, int from, int to, int depth) {
     int mid = (from + to) / 2;
     for (int i = 0; i < d; i++)
         tree->vect[i] = vects[mid][i];
-    tree->l = new KDtree;
-    tree->l->parent = tree;
-    buildTree(tree->l, from, mid - 1, depth + 1);
-    tree->r = new KDtree;
-    tree->r->parent = tree;
-    buildTree(tree->r, mid + 1, to, depth + 1);
+    if (from < mid) {
+        tree->l = new KDtree;
+        tree->l->parent = tree;
+        buildTree(tree->l, from, mid - 1, depth + 1);
+    }
+    if (mid < to) {
+        tree->r = new KDtree;
+        tree->r->parent = tree;
+        buildTree(tree->r, mid + 1, to, depth + 1);
+    }
 }
 
 void printTree(KDtree* tree, int depth) {
@@ -108,10 +100,10 @@ long long int distance(int* x, int* y) {
 }
 
 void findNearest(KDtree* tre, int* ques, long long int& ans) {
-    if (!tre || tre->dim < 0)
+    if (!tre)
         return;
     KDtree* curr = tre;
-    while (curr->l || curr->r) {
+    while (curr->l && curr->r) {
         int dim = curr->dim;
         if (ques[dim] < curr->vect[dim]) {
             curr = curr->l;
@@ -119,8 +111,12 @@ void findNearest(KDtree* tre, int* ques, long long int& ans) {
             curr = curr->r;
         }
     }
-    if (curr->dim < 0)
-        curr = curr->brother();
+    if (curr->l) {
+        curr = curr->l;
+    }
+    if (curr->r) {
+        curr = curr->r;
+    }
     ans = min(ans, distance(ques, curr->vect));
     while (curr != tre) {
         int dim = curr->parent->dim;
@@ -147,4 +143,9 @@ int main() {
         printf("%lld\n", ans);
     }
     return 0;
+    delete[] ques;
+    delete[] tree;
+    for (int i = 0; i < n; i++)
+        delete[] vects[i];
+    delete[] vects;
 }
