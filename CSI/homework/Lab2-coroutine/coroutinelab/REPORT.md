@@ -79,6 +79,8 @@
         coroutine_switch(context->callee_registers, context->caller_registers);
         ```
         2. 协程切换的时候栈的变化过程
+        ![](photos/1.jpg "从协程切换至调度器")
+        ![](photos/2.jpg "从调度器切换至协程")
         3. 协程执行过程
     - **Task2**
         1. 代码
