@@ -4,7 +4,7 @@
 #include <cstdio>
 #include <iostream>
 
-coroutine_pool *g_pool;
+coroutine_pool* g_pool;
 
 // example code to run in coroutine
 std::vector<int> p;

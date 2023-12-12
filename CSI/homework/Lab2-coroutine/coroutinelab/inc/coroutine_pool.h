@@ -5,14 +5,14 @@
 #include <vector>
 
 struct coroutine_pool;
-extern coroutine_pool *g_pool;
+extern coroutine_pool* g_pool;
 
 /**
  * @brief 协程池
  * 保存所有需要同步执行的协程函数。并可以进行并行/串行执行。
  */
 struct coroutine_pool {
-  std::vector<basic_context *> coroutines;
+  std::vector<basic_context*> coroutines;
   int context_id;
 
   // whether run in threads or coroutines
@@ -41,7 +41,7 @@ struct coroutine_pool {
       threads.emplace_back([p]() { p->run(); });
     }
 
-    for (auto &thread : threads) {
+    for (auto& thread : threads) {
       thread.join();
     }
   }
@@ -60,9 +60,28 @@ struct coroutine_pool {
     is_parallel = false;
     g_pool = this;
 
+    bool needDo = true;
+    while (needDo) {
+      int n = coroutines.size();
+      needDo = false;
+      for (int i = 0; i < n; i++) {
+        g_pool->context_id = i;
+        if (!coroutines[i]->finished) {
+          needDo = true;
+          if (coroutines[i]->ready)
+            coroutines[i]->resume();
+          else if (coroutines[i]->ready_func()) {
+            coroutines[i]->ready = true;
+            coroutines[i]->resume();
+          }
+        }
+      }
+    }
+
     for (auto context : coroutines) {
       delete context;
     }
+
     coroutines.clear();
   }
 };
