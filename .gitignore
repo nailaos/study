@@ -16,5 +16,8 @@
 # NOTE: Ignore zip file 
 *.zip
 
+# NOTE: Ignore gdbhistory
+*.gdb_history
+
 ### Above combination will ignore all files without extension ###
 
