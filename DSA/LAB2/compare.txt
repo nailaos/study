@@ -1,0 +1,54 @@
+bad hashing and linear prode with 2.in
+real	1m26.382s
+
+bad hashing and double prode with 2.in
+real	0m0.967s
+
+bad hashing and overflow prode with 2.in
+real	0m48.984s
+
+good hashing and linear prode with 2.in
+real	0m0.082s
+
+good hashing and double prode with 2.in
+real	0m0.085s
+
+good hashing and overflow prode with 2.in
+real	0m20.918s
+
+bad hashing and linear prode with 3.in
+real	4m12.968s
+
+bad hashing and double prode with 3.in
+real	0m3.012s
+
+bad hashing and overflow prode with 3.in
+real	3m26.813s
+
+good hashing and linear prode with 3.in
+real	0m0.156s
+
+good hashing and double prode with 3.in
+real	0m0.174s
+
+good hashing and overflow prode with 3.in
+real	1m36.330s
+
+bad hashing and linear prode with 4.in
+real	9m23.968s
+
+bad hashing and double prode with 4.in
+real	0m6.553s
+
+bad hashing and overflow prode with 4.in
+real	6m20.071s
+
+good hashing and linear prode with 4.in
+real	0m0.223s
+
+good hashing and double prode with 4.in
+real	0m0.243s
+
+good hashing and overflow prode with 4.in
+real	3m54.351s
+
