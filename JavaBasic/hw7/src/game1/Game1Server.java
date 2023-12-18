@@ -1,17 +1,12 @@
 package game1;
 
-
-import javax.management.AttributeList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Random;
-import java.util.Scanner;
 
 public class Game1Server extends Thread {
 
@@ -31,6 +26,7 @@ public class Game1Server extends Thread {
         upper_bound = tu;
         limit = tlimit;
     }
+
     public void run() {
 
         try {
@@ -38,7 +34,7 @@ public class Game1Server extends Thread {
 
             System.out.println("server running");
             Socket s = ss.accept();
-            System.out.println("client "+s.getInetAddress().getLocalHost()+"connected");
+            System.out.println("client " + s.getInetAddress().getLocalHost() + "connected");
 
             BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
@@ -47,28 +43,28 @@ public class Game1Server extends Thread {
 
             System.out.println(mess);
             int t;
-            while(!mess.equals("bye")) {
+            while (!mess.equals("bye")) {
                 System.out.println("server got:" + mess);
-                if(mess.equals("hello")){
-                    bw.write(String.valueOf(lower_bound)+"\n"+String.valueOf(upper_bound)+"\n"+String.valueOf(limit)+"\n");
+                if (mess.equals("hello")) {
+                    bw.write(String.valueOf(lower_bound) + "\n" + String.valueOf(upper_bound) + "\n"
+                            + String.valueOf(limit) + "\n");
                     bw.flush();
                     mess = br.readLine();
                     continue;
                 }
                 t = Integer.parseInt(mess);
                 cnt++;
-                if(cnt > limit) {
-                    bw.write("exceed limit\nbye\n");;
+                if (cnt > limit) {
+                    bw.write("exceed limit\nbye\n");
+                    ;
                     bw.flush();
                     return;
                 }
-                if(t < number) {
+                if (t < number) {
                     bw.write("<\n");
-                }
-                else if (t > number) {
+                } else if (t > number) {
                     bw.write(">\n");
-                }
-                else {
+                } else {
                     bw.write("Correct!\n");
                     bw.write("bye\n");
                     bw.flush();
@@ -78,10 +74,11 @@ public class Game1Server extends Thread {
                 bw.flush();
                 mess = br.readLine();
             }
+            ss.close();
         } catch (IOException e) {
             e.printStackTrace();
             result = "run time error" + String.valueOf(e);
-            return ;
+            return;
         }
 
         result = "Correct!";
