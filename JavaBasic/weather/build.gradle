@@ -10,7 +10,7 @@ plugins {
 }
 
 application {
-    mainClassName = 'Main'
+    mainClassName = 'Weather'
 }
 
 repositories {
@@ -36,7 +36,9 @@ jar {
     // mainClassName = 'your.package.YourMainClass'
     manifest {
         attributes(
-            'Main-Class': 'Main'
+            'Main-Class': 'Weather'
         )
     }
+    from 'src/main/resources'
+    duplicatesStrategy = 'exclude'
 }
