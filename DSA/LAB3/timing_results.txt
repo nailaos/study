@@ -1,0 +1,80 @@
+Iteration 1: AvlTree: 5 ms, SplayTree: 6 ms
+Iteration 2: AvlTree: 5 ms, SplayTree: 6 ms
+Iteration 3: AvlTree: 5 ms, SplayTree: 6 ms
+AvlTree Average Duration: 5 ms
+SplayTree Average Duration: 6 ms
+Iteration 1: AvlTree: 59 ms, SplayTree: 78 ms
+Iteration 2: AvlTree: 60 ms, SplayTree: 73 ms
+Iteration 3: AvlTree: 60 ms, SplayTree: 77 ms
+AvlTree Average Duration: 59.6667 ms
+SplayTree Average Duration: 76 ms
+Iteration 1: AvlTree: 1262 ms, SplayTree: 1600 ms
+Iteration 2: AvlTree: 1179 ms, SplayTree: 1546 ms
+Iteration 3: AvlTree: 1228 ms, SplayTree: 1522 ms
+AvlTree Average Duration: 1223 ms
+SplayTree Average Duration: 1556 ms
+Iteration 1: AvlTree: 8 ms, SplayTree: 10 ms
+Iteration 2: AvlTree: 8 ms, SplayTree: 10 ms
+Iteration 3: AvlTree: 8 ms, SplayTree: 10 ms
+AvlTree Average Duration: 8 ms
+SplayTree Average Duration: 10 ms
+Iteration 1: AvlTree: 102 ms, SplayTree: 140 ms
+Iteration 2: AvlTree: 104 ms, SplayTree: 142 ms
+Iteration 3: AvlTree: 103 ms, SplayTree: 141 ms
+AvlTree Average Duration: 103 ms
+SplayTree Average Duration: 141 ms
+Iteration 1: AvlTree: 1929 ms, SplayTree: 2705 ms
+Iteration 2: AvlTree: 1976 ms, SplayTree: 2587 ms
+Iteration 3: AvlTree: 2043 ms, SplayTree: 2599 ms
+AvlTree Average Duration: 1982.67 ms
+SplayTree Average Duration: 2630.33 ms
+Iteration 1: AvlTree: 872 ms, SplayTree: 1111 ms
+Iteration 2: AvlTree: 833 ms, SplayTree: 1091 ms
+Iteration 3: AvlTree: 806 ms, SplayTree: 1104 ms
+AvlTree Average Duration: 837 ms
+SplayTree Average Duration: 1102 ms
+Iteration 1: AvlTree: 45 ms, SplayTree: 57 ms
+Iteration 2: AvlTree: 45 ms, SplayTree: 58 ms
+Iteration 3: AvlTree: 44 ms, SplayTree: 59 ms
+AvlTree Average Duration: 44.6667 ms
+SplayTree Average Duration: 58 ms
+Iteration 1: AvlTree: 46 ms, SplayTree: 59 ms
+Iteration 2: AvlTree: 47 ms, SplayTree: 61 ms
+Iteration 3: AvlTree: 45 ms, SplayTree: 60 ms
+AvlTree Average Duration: 46 ms
+SplayTree Average Duration: 60 ms
+Iteration 1: AvlTree: 916 ms, SplayTree: 1236 ms
+Iteration 2: AvlTree: 913 ms, SplayTree: 1273 ms
+Iteration 3: AvlTree: 951 ms, SplayTree: 1231 ms
+AvlTree Average Duration: 926.667 ms
+SplayTree Average Duration: 1246.67 ms
+Iteration 1: AvlTree: 938 ms, SplayTree: 1293 ms
+Iteration 2: AvlTree: 937 ms, SplayTree: 1287 ms
+Iteration 3: AvlTree: 951 ms, SplayTree: 1286 ms
+AvlTree Average Duration: 942 ms
+SplayTree Average Duration: 1288.67 ms
+Iteration 1: AvlTree: 42 ms, SplayTree: 31 ms
+Iteration 2: AvlTree: 39 ms, SplayTree: 30 ms
+Iteration 3: AvlTree: 39 ms, SplayTree: 30 ms
+AvlTree Average Duration: 40 ms
+SplayTree Average Duration: 30.3333 ms
+Iteration 1: AvlTree: 449 ms, SplayTree: 353 ms
+Iteration 2: AvlTree: 456 ms, SplayTree: 352 ms
+Iteration 3: AvlTree: 446 ms, SplayTree: 351 ms
+AvlTree Average Duration: 450.333 ms
+SplayTree Average Duration: 352 ms
+Iteration 1: AvlTree: 44 ms, SplayTree: 46 ms
+Iteration 2: AvlTree: 43 ms, SplayTree: 46 ms
+Iteration 3: AvlTree: 46 ms, SplayTree: 47 ms
+AvlTree Average Duration: 44.3333 ms
+SplayTree Average Duration: 46.3333 ms
+Iteration 1: AvlTree: 644 ms, SplayTree: 692 ms
+Iteration 2: AvlTree: 643 ms, SplayTree: 725 ms
+Iteration 3: AvlTree: 664 ms, SplayTree: 689 ms
+AvlTree Average Duration: 650.333 ms
+SplayTree Average Duration: 702 ms
+Iteration 1: AvlTree: 840 ms, SplayTree: 1027 ms
+Iteration 2: AvlTree: 819 ms, SplayTree: 1005 ms
+Iteration 3: AvlTree: 829 ms, SplayTree: 1011 ms
+AvlTree Average Duration: 829.333 ms
+SplayTree Average Duration: 1014.33 ms
