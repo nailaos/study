@@ -10,7 +10,7 @@
 
 team_t team = {
   /* Team name */
-  "ateam",
+  "2022010771",
   /* First member's full name */
   "Lv Jiaxin",
   /* First member's email address */
@@ -25,7 +25,7 @@ team_t team = {
 
 #define WSIZE       8       
 #define DSIZE       16      
-#define CHUNKSIZE  (1<<8)  
+#define CHUNKSIZE   (1<<12)  
 #define SEG_LEN     15
 
 #define MAX(x, y) ((x) > (y)? (x) : (y))  
@@ -66,95 +66,6 @@ static void  remove_block(char* bp);
 static void* place(char* bp, size_t asize);
 static size_t  get_index(size_t size);
 
-/* ========================= DEBUG ========================= */
-static void Error_Handler(char* bp, char* __ERROR_MSG__);
-/* print_funcname: 打印函数名 */
-static void print_funcname(char* name) {
-  printf("In %s\n", name);
-}
-
-/* print_heap_list: 打印堆块组织方式 */
-static void print_heap_list(char* __FUNCNAME__) {
-  printf("-----------===  Block List ===--------------\n");
-  print_funcname(__FUNCNAME__);
-  char* bp = heap_listp;
-  while (GET_ALLOC(HDRP(bp)) != 1 || CRT_BLKSZ(bp) != 0) {
-    if (!GET_ALLOC(HDRP(bp)) && !CRT_BLKSZ(bp)) {
-      Error_Handler(bp, "Heap Last Pointer Leak!!!\n");
-      exit(-1);
-    }
-    printf("Block Pointer: %p \t Allocated: %ld \t Size: %ld\n", bp, GET_ALLOC(HDRP(bp)), CRT_BLKSZ(bp));
-    bp = NEXT_BLKP(bp);
-  }
-  printf("Block Pointer: %p \t Allocated: %ld \t Size: %ld\n", bp, GET_ALLOC(HDRP(bp)), CRT_BLKSZ(bp));
-  printf("----------------------------------------------------\n\n");
-}
-
-/* print_block_info: 打印bp指向块的详细信息 */
-static void print_block_info(char* bp, char* __FUNCNAME__) {
-  printf("-------------=== BLOCK INFO ===----------------\n");
-  print_funcname(__FUNCNAME__);
-  printf("Pointer: %p\n", bp);
-  char* __STATE__ = GET_ALLOC(HDRP(bp)) == ALLOCATED ? "ALLOCATED" : "FREE";
-  printf("STATE: %s \t Header_SIZE: %ld \t Footer_SIZE: %ld\n", __STATE__, GET_SIZE(HDRP(bp)), GET_SIZE(FTRP(bp)));
-  if (!GET_ALLOC(HDRP(bp))) {
-    int seg_index = get_index(CRT_BLKSZ(bp));
-    char* root = list_start + seg_index * WSIZE;
-    printf("ROOT: %p\n", root);
-    if ((void*)PRED_BLKP(bp)) printf("PRED_BLKP: %p \t", (void*)PRED_BLKP(bp)); else printf("PRED_BLKP: NULL \t");
-    if ((void*)SUCC_BLKP(bp)) printf("SUSUCC_BLKPC: %p \n", (void*)SUCC_BLKP(bp)); else printf("SUCC_BLKP: NULL \n");
-  }
-
-  printf("----------------------------------------------------\n\n");
-}
-
-/* print_free_list: 打印当前空闲列表信息 */
-static void print_free_list(char* __FUNCNAME__) {
-  printf("-------------=== FREE BLOCK LIST ===----------------\n");
-  print_funcname(__FUNCNAME__);
-  int seg_idx = 0;
-
-  while (seg_idx < SEG_LEN) {
-    char* root = list_start + seg_idx * WSIZE;
-    char* bp = (char*)SUCC_BLKP(root);
-    while (bp) {
-      char* __STATE__ = GET_ALLOC(HDRP(bp)) == ALLOCATED ? "ALLOCATED" : "FREE";
-      printf("bp: %p \t ROOT: %p \t STATE: %s \t SIZE: %ld \t", bp, root, __STATE__, CRT_BLKSZ(bp));
-
-      if (!GET_ALLOC(HDRP(bp))) {
-        if ((void*)PRED_BLKP(bp)) printf("PRED_BLKP: %p \t", (void*)PRED_BLKP(bp)); else printf("PRED_BLKP: NULL \t");
-        if ((void*)SUCC_BLKP(bp)) printf("SUSUCC_BLKPC: %p \n\n", (void*)SUCC_BLKP(bp)); else printf("SUCC_BLKP: NULL \n\n");
-      }
-      bp = (char*)SUCC_BLKP(bp);
-    }
-    seg_idx++;
-  }
-
-  printf("----------------------------------------------------\n\n");
-}
-
-/* show_free_link: 展示以root开头的大小类空闲链表 */
-static void show_free_link(char* root) {
-  if (SUCC_BLKP(root))
-    printf("ROOT: %p --> ", root);
-  else {
-    printf("ROOT: %p\n", root);
-    return;
-  }
-  char* succ = (char*)SUCC_BLKP(root);
-  while (SUCC_BLKP(succ)) {
-    printf("%p ---> ", succ);
-    succ = (char*)SUCC_BLKP(succ);
-  }
-  printf("%p\n", succ);
-}
-
-/* Error_Handler: 打印错误信息 */
-static void Error_Handler(char* bp, char* __ERROR_MSG__) {
-  printf("%s", __ERROR_MSG__);
-  print_block_info(bp, "Error");
-}
-
 int mm_init(void) {
   if ((heap_listp = mem_sbrk((SEG_LEN + 3) * WSIZE)) == (void*)-1)
     return -1;
@@ -169,7 +80,7 @@ int mm_init(void) {
   list_start = heap_listp;
   heap_listp += ((i + 1) * WSIZE);
 
-  if (extend_heap(CHUNKSIZE) == NULL)
+  if (extend_heap(512) == NULL)
     return -1;
   return 0;
 }
@@ -187,21 +98,13 @@ void* mm_malloc(size_t size) {
   else
     asize = DSIZE * ((size + (DSIZE)+(DSIZE - 1)) / DSIZE);
 
-  if (size == 112) {
-    asize = 128 + 16;
-    printf("size is %ld, asize is %ld\n", size, asize);
-  }
-  //printf("malloc size: %ld\n", asize);
-//print_free_list("check free list\n");
   if ((bp = find_fit(asize)) != NULL)
     return place(bp, asize);
 
   extendsize = MAX(asize, CHUNKSIZE);
-  //printf("In mm_malloc | size:%ld -> asize: %ld extendsize = %ld\n\n", size, asize, extendsize);
-  //print_free_list("check free list\n");
+
   if ((bp = extend_heap(extendsize)) == NULL)
     return NULL;
-
 
   return place(bp, asize);
 }
@@ -211,9 +114,6 @@ void mm_free(void* bp) {
     return;
 
   size_t size = GET_SIZE(HDRP(bp));
-
-  if (heap_listp == 0)
-    mm_init();
 
   PUT(HDRP(bp), PACK(size, 0));
   PUT(FTRP(bp), PACK(size, 0));
@@ -299,9 +199,7 @@ static void* coalesce(void* bp) {
     PUT(PRED(bp), NULL);
     PUT(SUCC(bp), NULL);
   } else if (!prev_alloc && next_alloc) {
-    //printf("pred is empty, and the size berfore add is %ld\n", size);
     size += PREV_BLKSZ(bp);
-    //printf("after add the size is %ld\n", size);
     remove_block(PREV_BLKP(bp));
     PUT(FTRP(bp), PACK(size, 0));
     PUT(HDRP(PREV_BLKP(bp)), PACK(size, 0));
@@ -337,8 +235,6 @@ static void* find_fit(size_t size) {
   }
   return NULL;
 }
-
-
 
 static void insert_block(char* bp) {
   int index = get_index(GET_SIZE(HDRP(bp)));
@@ -376,8 +272,7 @@ static void* place(char* bp, size_t asize) {
   remove_block(bp);
 
   if (rm_size >= 2 * DSIZE) {
-    //printf("blk_size: %ld, rm_size: %ld, asize: %ld\n", blk_size, rm_size, asize);
-    if (asize > 64) {
+    if (asize > 96) {
       PUT(HDRP(bp), PACK(rm_size, 0));
       PUT(FTRP(bp), PACK(rm_size, 0));
       PUT(HDRP(NEXT_BLKP(bp)), PACK(asize, 1));

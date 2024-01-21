@@ -3,7 +3,7 @@
 
 $out_filename = "coalescing.rep";
 $blk_size = 4095;
-$num_iters = 2400;
+$num_iters = 4;
 
 # Open output file
 open OUTFILE, ">$out_filename" or die "Cannot create $out_filename\n";

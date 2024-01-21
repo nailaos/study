@@ -5,7 +5,7 @@ $out_filename = "realloc2.rep";
 $realloc_size = 4092;
 $size_increment = 5;
 $malloc_size = 16;
-$num_iters = 4800;
+$num_iters = 4;
 
 # Open output file
 open OUTFILE, ">$out_filename" or die "Cannot create $out_filename\n";

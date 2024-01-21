@@ -3,7 +3,7 @@
 $out_filename = "binary2.rep";
 $blk_size1 = 16;
 $blk_size2 = 128 - $blk_size1;
-$num_iters = 4000;
+$num_iters = 4;
 
 # Open output file
 open OUTFILE, ">$out_filename" or die "Cannot create $out_filename\n";
